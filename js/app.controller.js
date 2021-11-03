@@ -8,6 +8,8 @@ window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onSearch = onSearch;
 window.onCopyLoc = onCopyLoc;
+window.onGoTo = onGoTo;
+window.onDeleteLoc = onDeleteLoc;
 
 function onInit() {
   mapService
@@ -35,7 +37,7 @@ function onAddMarker() {
 function onGetLocs() {
   locService.getLocs().then((locs) => {
     console.log('Locations:', locs);
-    document.querySelector('.locs').innerText = JSON.stringify(locs);
+    renderLocTable(locs);
   });
 }
 
@@ -125,4 +127,45 @@ function getLocFromUrl(url = window.location.href) {
 
 function renderTable(res) {
   // {id, name, lat, lng, weather, createdAt, updatedAt}
+}
+
+//render
+function renderLocTable(locs) {
+  var strHtml =
+    '<thead><th>Id</th><th>Name</th><th>Lat</th><th>Lng</th><th>Time</th><th>Weather</th><th>Update</th><th>Go</th><th>Delete</th></thead><tbody>';
+  for (var i = 0; i < locs.length; i++) {
+    let currLoc = locs[i];
+    let time = locService.convertToTime(currLoc.createdAt);
+    let id = currLoc.id;
+    let lat = currLoc.lat.toFixed(3);
+    let lng = currLoc.lng.toFixed(3);
+    let name = currLoc.name;
+    let weather = currLoc.weather;
+    let update = currLoc.updatedAt;
+    strHtml += `<tr class="table-tr">
+    <td>${id}</td>
+    <td>${name}</td>
+    <td>${lat}</td>
+    <td>${lng}</td>
+    <td>${time}</td>
+    <td>${weather}</td>
+    <td>${update}</td>
+    <td onclick="onGoTo({lat:${currLoc.lat}, lng:${currLoc.lng}})" class="action-td"><img src="img/location.png" class="location-img"></td>
+    <td onclick="onDeleteLoc(${id})" class="action-td"><img src="img/x.png" class="location-img"></td>
+    </tr>`;
+  }
+  strHtml += `</tbody>`;
+  document.querySelector('.table-container').innerHTML = strHtml;
+}
+
+function onGoTo(loc) {
+  mapService.goToLoc(loc);
+}
+
+function onDeleteLoc(name) {
+  locService.deleteLocFromStorage(name);
+  locService.getLocs().then((locs) => {
+    console.log('Locations:', locs);
+    renderLocTable(locs);
+  });
 }
