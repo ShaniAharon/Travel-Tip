@@ -6,6 +6,7 @@ export const locService = {
   getCurrLoc,
   convertToTime,
   deleteLocFromStorage,
+  addWeatherToLoc,
 };
 
 // let gId = 1;
@@ -68,4 +69,8 @@ function convertToTime(time) {
     hour: '2-digit',
     minute: '2-digit',
   });
+}
+
+function addWeatherToLoc(weather) {
+  locs[locs.length - 1].weather = weather;
 }

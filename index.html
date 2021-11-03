@@ -29,11 +29,16 @@
       <button class="btn copy-loc" onclick="onCopyLoc()">Copy Location</button>
       <a href="" class="clip-link"></a>
     </section>
-    <section class="weather-container"></section>
-    <h3>You are at: <span class="user-pos"></span></h3>
+    <section class="msg-container">
+      <section class="weather-container">
+        <h2>Weather: <span class="weather-span"></span></h2>
+      </section>
+      <h3>You are at: <span class="user-pos"></span></h3>
+    </section>
     <section class="loc-container">
       <table class="table-container"></table>
     </section>
+
     <script src="lib/axios.js"></script>
     <script type="module" src="js/app.controller.js"></script>
   </body>

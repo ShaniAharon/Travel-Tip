@@ -6,6 +6,7 @@ export const mapService = {
   panTo,
   getSearchLoc,
   goToLoc,
+  getWeather,
 };
 
 var gMap;
@@ -36,7 +37,7 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
         lat: clickedLoc.lat,
         lng: clickedLoc.lng,
       };
-      goToLoc(clickedLoc); //not sure if its good to do this way
+      goToLoc(clickedLoc);
       addMarker(desLoc);
       // setPlace(position, name);
       // renderList();
@@ -48,6 +49,10 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
 
 function goToLoc(loc) {
   mapService.panTo(loc.lat, loc.lng);
+  const prmWeather = getWeather(loc);
+  return prmWeather.then((res) => {
+    return res;
+  });
 }
 
 function addMarker(loc) {
@@ -84,6 +89,22 @@ function getSearchLoc(locName) {
   return prm;
   // locService.addNewLoc(locObj);
 }
+
+function getWeather(loc) {
+  const prm = axios
+    .get(
+      `http://api.openweathermap.org/data/2.5/weather?lat=${loc.lat}&lon=${loc.lng}&APPID=42b99a84f65eef15a9599f60bd7c562d
+      `
+    )
+    .then((res) => {
+      console.log('Axios Res:', res);
+
+      return res.data.weather[0].description;
+    });
+  return prm;
+}
+
+//weather api - 42b99a84f65eef15a9599f60bd7c562d
 
 function _connectGoogleApi() {
   if (window.google) return Promise.resolve();

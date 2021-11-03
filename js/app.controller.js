@@ -68,7 +68,10 @@ function onSearch() {
   const searchValue = document.querySelector('.search-input').value;
   console.log(searchValue);
   const prmSearch = mapService.getSearchLoc(searchValue);
-  prmSearch.then(locService.addNewLoc).then(mapService.goToLoc);
+  prmSearch
+    .then(locService.addNewLoc)
+    .then(mapService.goToLoc)
+    .then(renderWeather);
   //   getSearchLoc(searchValue);
   //   getAllLoc().then(renderTable);
 }
@@ -168,4 +171,10 @@ function onDeleteLoc(name) {
     console.log('Locations:', locs);
     renderLocTable(locs);
   });
+}
+
+function renderWeather(res) {
+  const elSpan = document.querySelector('.weather-span');
+  elSpan.innerText = res;
+  locService.addWeatherToLoc(res);
 }
