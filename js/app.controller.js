@@ -14,10 +14,9 @@ function onInit() {
     .initMap()
     .then(() => {
       console.log('Map is ready');
+      onOpenPage();
     })
     .catch(() => console.log('Error: cannot init map'));
-
-  onOpenPage();
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
@@ -75,6 +74,7 @@ function onSearch() {
 function onCopyLoc() {
   const currLocPrm = locService.getCurrLoc();
   currLocPrm.then(createCLipLink);
+  console.log('here');
 }
 
 function createCLipLink(loc) {
@@ -111,6 +111,7 @@ function getLocFromUrl(url = window.location.href) {
   console.log(url);
   const idxOflat = url.indexOf('lat');
   const idxOflng = url.indexOf('lng');
+  //search for a function that give the url parm, url obj
   if (idxOflat < 0 || idxOflng < 0) return null;
   const idxOfAnd = url.indexOf('&');
   const lat = url.substring(idxOflat + 4, idxOfAnd);
