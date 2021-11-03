@@ -1,11 +1,11 @@
 import {locService} from './loc.service.js';
-import {controller} from '../app.controller.js'; //not sure if its good this way
 
 export const mapService = {
   initMap,
   addMarker,
   panTo,
   getSearchLoc,
+  goToLoc,
 };
 
 var gMap;
@@ -36,7 +36,7 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
         lat: clickedLoc.lat,
         lng: clickedLoc.lng,
       };
-      controller.goToLoc(clickedLoc); //not sure if its good to do this way
+      goToLoc(clickedLoc); //not sure if its good to do this way
       addMarker(desLoc);
       // setPlace(position, name);
       // renderList();
@@ -44,6 +44,10 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
 
     console.log('Map!', gMap);
   });
+}
+
+function goToLoc(loc) {
+  mapService.panTo(loc.lat, loc.lng);
 }
 
 function addMarker(loc) {

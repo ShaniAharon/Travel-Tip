@@ -1,10 +1,6 @@
 import {locService} from './services/loc.service.js';
 import {mapService} from './services/map.service.js';
 
-export const controller = {
-  goToLoc,
-};
-
 window.onload = onInit;
 window.onAddMarker = onAddMarker;
 window.onPanTo = onPanTo;
@@ -68,13 +64,9 @@ function onSearch() {
   const searchValue = document.querySelector('.search-input').value;
   console.log(searchValue);
   const prmSearch = mapService.getSearchLoc(searchValue);
-  prmSearch.then(locService.addNewLoc).then(goToLoc);
+  prmSearch.then(locService.addNewLoc).then(mapService.goToLoc);
   //   getSearchLoc(searchValue);
   //   getAllLoc().then(renderTable);
-}
-
-function goToLoc(loc) {
-  mapService.panTo(loc.lat, loc.lng);
 }
 
 function renderTable(res) {
