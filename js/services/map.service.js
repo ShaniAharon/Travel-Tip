@@ -1,7 +1,10 @@
+import {locService} from './loc.service.js';
+
 export const mapService = {
   initMap,
   addMarker,
   panTo,
+  getSearchLoc,
 };
 
 var gMap;
@@ -30,6 +33,11 @@ function addMarker(loc) {
 function panTo(lat, lng) {
   var laLatLng = new google.maps.LatLng(lat, lng);
   gMap.panTo(laLatLng);
+}
+
+function getSearchLoc(locName) {
+  //use the api to get loc lat lang
+  // locService.addNewLoc(locObj);
 }
 
 function _connectGoogleApi() {
