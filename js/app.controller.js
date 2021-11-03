@@ -1,6 +1,10 @@
 import {locService} from './services/loc.service.js';
 import {mapService} from './services/map.service.js';
 
+export const controller = {
+  goToLoc,
+};
+
 window.onload = onInit;
 window.onAddMarker = onAddMarker;
 window.onPanTo = onPanTo;
@@ -44,11 +48,17 @@ function onGetUserPos() {
       document.querySelector(
         '.user-pos'
       ).innerText = `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`;
+      mapService.panTo(pos.coords.latitude, pos.coords.longitude);
+      mapService.addMarker({
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude,
+      });
     })
     .catch((err) => {
       console.log('err!!!', err);
     });
 }
+
 function onPanTo() {
   console.log('Panning the Map');
   mapService.panTo(35.6895, 139.6917);
@@ -57,8 +67,14 @@ function onPanTo() {
 function onSearch() {
   const searchValue = document.querySelector('.search-input').value;
   console.log(searchValue);
-  //   getSearchLoc(searchValue)
-  getAllLoc().then(renderTable);
+  const prmSearch = mapService.getSearchLoc(searchValue);
+  prmSearch.then(locService.addNewLoc).then(goToLoc);
+  //   getSearchLoc(searchValue);
+  //   getAllLoc().then(renderTable);
+}
+
+function goToLoc(loc) {
+  mapService.panTo(loc.lat, loc.lng);
 }
 
 function renderTable(res) {

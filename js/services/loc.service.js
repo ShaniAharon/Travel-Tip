@@ -5,10 +5,13 @@ export const locService = {
   addNewLoc,
 };
 
-const locs = [
-  {name: 'Greatplace', lat: 32.047104, lng: 34.832384},
-  {name: 'Neveragain', lat: 32.047201, lng: 34.832581},
-];
+let gId = 1;
+const KEY = 'locs';
+
+// {name: 'Neveragain', lat: 32.047201, lng: 34.832581},
+// {id, name, lat, lng, weather, createdAt, updatedAt},
+//   {name: 'Greatplace', lat: 32.047104, lng: 34.832384},
+const locs = storageService.loadFromStorage(KEY) || [];
 
 function getLocs() {
   return new Promise((resolve, reject) => {
@@ -20,8 +23,21 @@ function getLocs() {
 
 function addNewLoc(loc) {
   //add to the locs arr
+  const newLoc = {
+    id: gId++,
+    name: loc.name,
+    lat: loc.lat,
+    lng: loc.lng,
+    weather: '',
+    createdAt: Date.now,
+    updatedAt: '',
+  };
+  locs.push(newLoc);
+  console.log(locs);
+  storageService.saveToStorage(KEY, locs);
+  return newLoc;
 }
 
-function getAllLoc() {
-  return Promise.resolve(locs);
-}
+// function getAllLoc() {
+//   return Promise.resolve(locs);
+// }
