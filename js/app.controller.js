@@ -7,6 +7,7 @@ window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onSearch = onSearch;
+window.onCopyLoc = onCopyLoc;
 
 function onInit() {
   mapService
@@ -15,6 +16,8 @@ function onInit() {
       console.log('Map is ready');
     })
     .catch(() => console.log('Error: cannot init map'));
+
+  onOpenPage();
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
@@ -67,6 +70,56 @@ function onSearch() {
   prmSearch.then(locService.addNewLoc).then(mapService.goToLoc);
   //   getSearchLoc(searchValue);
   //   getAllLoc().then(renderTable);
+}
+
+function onCopyLoc() {
+  const currLocPrm = locService.getCurrLoc();
+  currLocPrm.then(createCLipLink);
+}
+
+function createCLipLink(loc) {
+  if (!loc) {
+    console.log('no data');
+    return;
+  }
+  const urlWithLoc = `https://shaniaharon.github.io/Travel-Tip/?lat=${loc.lat}&lng=${loc.lng}`;
+  const elLink = document.querySelector('.clip-link');
+  elLink.href = urlWithLoc;
+  elLink.innerHTML = 'your clip link';
+}
+
+function onOpenPage() {
+  const loc = getLocFromUrl();
+  console.log(loc);
+  if (!loc) return;
+  console.log(loc);
+  mapService.goToLoc(loc);
+}
+
+// function getParameterByName(name, url = window.location.href) {
+//   name = name.replace(/[\[\]]/g, '\\$&');
+//   var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+//     results = regex.exec(url);
+//   console.log(results);
+//   console.log(url);
+//   if (!results) return null;
+//   if (!results[2]) return '';
+//   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+// }
+
+function getLocFromUrl(url = window.location.href) {
+  console.log(url);
+  const idxOflat = url.indexOf('lat');
+  const idxOflng = url.indexOf('lng');
+  if (idxOflat < 0 || idxOflng < 0) return null;
+  const idxOfAnd = url.indexOf('&');
+  const lat = url.substring(idxOflat + 4, idxOfAnd);
+  const lng = url.substring(idxOflng + 4);
+  const loc = {
+    lat,
+    lng,
+  };
+  return loc;
 }
 
 function renderTable(res) {

@@ -3,6 +3,7 @@ import {storageService} from './storage.service.js';
 export const locService = {
   getLocs,
   addNewLoc,
+  getCurrLoc,
 };
 
 let gId = 1;
@@ -36,6 +37,13 @@ function addNewLoc(loc) {
   console.log(locs);
   storageService.saveToStorage(KEY, locs);
   return newLoc;
+}
+
+function getCurrLoc() {
+  return new Promise((resolve, reject) => {
+    if (!locs.length) reject(null);
+    resolve(locs[locs.length - 1]);
+  });
 }
 
 // function getAllLoc() {
