@@ -73,7 +73,7 @@ function getSearchLoc(locName) {
   //use the api to get loc lat lang
   const prm = axios
     .get(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${locName}&key=AIzaSyAIoL8dIQWHfUCUNIl2CUZTkPBLo6q3d6I
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${locName}&key
   `
     )
     .then((res) => {
