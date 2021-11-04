@@ -61,14 +61,17 @@ table > thead > tr > th {
   background-color: rgb(235, 150, 150);
   cursor: pointer;
 }
+
 .loc-container {
   margin: 20px;
 }
+
 .location-img {
   width: 70%;
   /* height: 50%; */
   object-fit: cover;
 }
+
 .btn {
   /* background-image: linear-gradient(to right, #3AD0FA 0%, #2E89F8 51%, #43D2FA 100%); */
   background-image: linear-gradient(
@@ -88,6 +91,7 @@ table > thead > tr > th {
   border-radius: 10px;
   display: inline-block;
 }
+
 .btn:hover {
   background-position: right center;
   /* change the direction of the change here */
