@@ -104,7 +104,7 @@ function getWeather(loc) {
   return prm;
 }
 
-//weather api - 42b99a84f65eef15a9599f60bd7c562d
+
 
 function _connectGoogleApi() {
   if (window.google) return Promise.resolve();
